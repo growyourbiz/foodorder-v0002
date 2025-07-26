@@ -82,6 +82,15 @@
             padding: 1rem;
             font-family: monospace;
         }
+        .address-error {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        .address-error.show {
+            display: block;
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -213,6 +222,7 @@
             <div class="mb-6">
                 <label for="delivery-address" class="block text-gray-700 font-semibold mb-2">ที่อยู่จัดส่ง: กรุณาแจ้ง ตึก ชั้น ห้อง</label>
                 <textarea id="delivery-address" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="2" placeholder="ที่อยู่จัดส่งกรุณาแจ้ง ตึก ชั้น ห้อง"></textarea>
+                <div id="address-error" class="address-error">เยี่ยมเลยค่ะ กรุณาแจ้ง ตึก... ชั้น ... เลขที่ห้อง... ที่จัดส่งด้วยค่ะ 😊</div>
             </div>
             
             <div id="cart-items" class="mb-4">
@@ -397,6 +407,7 @@
             const textPreviewContainer = document.getElementById('text-preview-container');
             const textPreview = document.getElementById('text-preview');
             const deliveryAddressInput = document.getElementById('delivery-address');
+            const addressError = document.getElementById('address-error');
             
             // Event Listeners
             addToCartButtons.forEach(button => {
@@ -409,8 +420,13 @@
             decreaseQuantityButton.addEventListener('click', decreaseQuantity);
             increaseQuantityButton.addEventListener('click', increaseQuantity);
             addToCartConfirmButton.addEventListener('click', confirmAddToCart);
-            screenshotButton.addEventListener('click', openScreenshotModal);
+            screenshotButton.addEventListener('click', validateAndOpenScreenshotModal);
             copyTextButton.addEventListener('click', showAndCopyOrderText);
+            
+            // เมื่อมีการพิมพ์ในช่องที่อยู่ ให้ซ่อนข้อความแจ้งเตือน
+            deliveryAddressInput.addEventListener('input', function() {
+                addressError.classList.remove('show');
+            });
             
             // Functions
             function openAddItemModal(event) {
@@ -629,12 +645,23 @@
                 document.getElementById('total').textContent = `฿${formatNumber(total)}`;
             }
             
-            function openScreenshotModal() {
+            function validateAndOpenScreenshotModal() {
                 if (cart.length === 0) {
                     alert('กรุณาเลือกรายการอาหารก่อนทำการสรุปออเดอร์');
                     return;
                 }
                 
+                const address = deliveryAddressInput.value.trim();
+                if (!address) {
+                    addressError.classList.add('show');
+                    deliveryAddressInput.focus();
+                    return;
+                }
+                
+                openScreenshotModal();
+            }
+            
+            function openScreenshotModal() {
                 const screenshotItems = document.getElementById('screenshot-items');
                 screenshotItems.innerHTML = '';
                 
@@ -669,7 +696,7 @@
                 });
                 
                 const address = deliveryAddressInput.value.trim();
-                document.getElementById('screenshot-address').textContent = address || '-';
+                document.getElementById('screenshot-address').textContent = address;
                 
                 const subtotal = cart.reduce((sum, item) => sum + item.total, 0);
                 const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
@@ -736,5 +763,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96553b0186ce55a1',t:'MTc1MzU0Njg5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96554f0804d610da',t:'MTc1MzU0NzcxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
