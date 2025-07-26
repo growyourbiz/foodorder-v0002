@@ -71,6 +71,8 @@
             background-color: #ffffff;
             border: 2px solid #e5e7eb;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            max-height: 400px;
+            overflow-y: auto;
         }
         .text-preview {
             max-height: 300px;
@@ -122,6 +124,26 @@
         .food-category.active {
             display: block;
         }
+        /* เพิ่มสไตล์สำหรับ scrollable content */
+        .scrollable-content {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        .scrollable-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .scrollable-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .scrollable-content::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        .scrollable-content::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -138,6 +160,8 @@
             <div class="category-tab" data-category="pasta">พาสต้า</div>
             <div class="category-tab" data-category="thai">อาหารไทย</div>
             <div class="category-tab" data-category="drinks">เครื่องดื่ม</div>
+            <div class="category-tab" data-category="dessert">ของหวาน</div>
+            <div class="category-tab" data-category="salad">สลัด</div>
         </div>
 
         <!-- รายการอาหาร -->
@@ -291,6 +315,134 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- อาหารรายการที่ 9 (ของหวาน) -->
+                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="dessert">
+                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFF0F5\"/><circle cx=\"200\" cy=\"100\" r=\"50\" fill=\"%23FFB6C1\"/><circle cx=\"200\" cy=\"100\" r=\"40\" fill=\"%23FFC0CB\"/><rect x=\"180\" y=\"60\" width=\"40\" height=\"5\" fill=\"%23A52A2A\"/></svg>')"></div>
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-800">ไอศกรีม</h3>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-lg font-bold text-indigo-600">฿35</span>
+                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
+                                    data-id="9" 
+                                    data-name="ไอศกรีม" 
+                                    data-price="35"
+                                    data-has-sizes="true"
+                                    data-sizes='[{"name":"1 ลูก", "price":35}, {"name":"2 ลูก", "price":60}, {"name":"3 ลูก", "price":80}]'>
+                                เพิ่ม
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- อาหารรายการที่ 10 (ของหวาน) -->
+                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="dessert">
+                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFFAF0\"/><rect x=\"150\" y=\"70\" width=\"100\" height=\"60\" rx=\"5\" ry=\"5\" fill=\"%23F5DEB3\"/><rect x=\"150\" y=\"70\" width=\"100\" height=\"20\" fill=\"%23D2B48C\"/><circle cx=\"170\" cy=\"80\" r=\"5\" fill=\"%238B4513\"/><circle cx=\"190\" cy=\"80\" r=\"5\" fill=\"%238B4513\"/><circle cx=\"210\" cy=\"80\" r=\"5\" fill=\"%238B4513\"/><circle cx=\"230\" cy=\"80\" r=\"5\" fill=\"%238B4513\"/></svg>')"></div>
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-800">บราวนี่</h3>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-lg font-bold text-indigo-600">฿45</span>
+                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
+                                    data-id="10" 
+                                    data-name="บราวนี่" 
+                                    data-price="45"
+                                    data-has-sizes="false">
+                                เพิ่ม
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- อาหารรายการที่ 11 (สลัด) -->
+                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="salad">
+                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23F0FFF0\"/><ellipse cx=\"200\" cy=\"120\" rx=\"70\" ry=\"30\" fill=\"%2390EE90\"/><circle cx=\"180\" cy=\"100\" r=\"10\" fill=\"%23FF6347\"/><circle cx=\"220\" cy=\"110\" r=\"8\" fill=\"%23FF6347\"/><circle cx=\"190\" cy=\"115\" r=\"7\" fill=\"%23FFD700\"/><circle cx=\"210\" cy=\"95\" r=\"9\" fill=\"%23FFD700\"/><path d=\"M150 100 C 180 80, 220 80, 250 100\" stroke=\"%23228B22\" stroke-width=\"3\" fill=\"transparent\"/><path d=\"M160 110 C 190 90, 210 90, 240 110\" stroke=\"%23228B22\" stroke-width=\"2\" fill=\"transparent\"/></svg>')"></div>
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-800">สลัดผัก</h3>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-lg font-bold text-indigo-600">฿75</span>
+                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
+                                    data-id="11" 
+                                    data-name="สลัดผัก" 
+                                    data-price="75"
+                                    data-has-sizes="false">
+                                เพิ่ม
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- อาหารรายการที่ 12 (สลัด) -->
+                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="salad">
+                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23F5FFFA\"/><ellipse cx=\"200\" cy=\"120\" rx=\"70\" ry=\"30\" fill=\"%2390EE90\"/><rect x=\"180\" y=\"70\" width=\"40\" height=\"30\" fill=\"%23CD853F\"/><circle cx=\"170\" cy=\"100\" r=\"10\" fill=\"%23FF6347\"/><circle cx=\"230\" cy=\"110\" r=\"8\" fill=\"%23FF6347\"/><circle cx=\"190\" cy=\"115\" r=\"7\" fill=\"%23FFD700\"/><circle cx=\"210\" cy=\"95\" r=\"9\" fill=\"%23FFD700\"/><path d=\"M150 100 C 180 80, 220 80, 250 100\" stroke=\"%23228B22\" stroke-width=\"3\" fill=\"transparent\"/></svg>')"></div>
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-800">สลัดไก่</h3>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-lg font-bold text-indigo-600">฿95</span>
+                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
+                                    data-id="12" 
+                                    data-name="สลัดไก่" 
+                                    data-price="95"
+                                    data-has-sizes="false">
+                                เพิ่ม
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- อาหารรายการที่ 13 (เบอร์เกอร์) -->
+                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="burger">
+                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFE4C4\"/><circle cx=\"200\" cy=\"100\" r=\"60\" fill=\"%23DEB887\"/><path d=\"M200 160 C 150 140, 150 60, 200 40 C 250 60, 250 140, 200 160 Z\" fill=\"%23F5DEB3\"/><circle cx=\"180\" cy=\"90\" r=\"10\" fill=\"%23228B22\"/><circle cx=\"220\" cy=\"90\" r=\"10\" fill=\"%23228B22\"/><rect x=\"170\" y=\"110\" width=\"60\" height=\"10\" fill=\"%23FF6347\"/><rect x=\"180\" y=\"120\" width=\"40\" height=\"5\" fill=\"%23FFD700\"/></svg>')"></div>
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-800">เบอร์เกอร์หมู</h3>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-lg font-bold text-indigo-600">฿79</span>
+                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
+                                    data-id="13" 
+                                    data-name="เบอร์เกอร์หมู" 
+                                    data-price="79"
+                                    data-has-sizes="true"
+                                    data-sizes='[{"name":"ธรรมดา", "price":79}, {"name":"พิเศษ", "price":109}, {"name":"จัมโบ้", "price":139}]'>
+                                เพิ่ม
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- อาหารรายการที่ 14 (อาหารไทย) -->
+                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="thai">
+                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFF8DC\"/><ellipse cx=\"200\" cy=\"120\" rx=\"80\" ry=\"20\" fill=\"%23F5DEB3\"/><path d=\"M150 100 C 180 80, 220 80, 250 100\" stroke=\"%23A52A2A\" stroke-width=\"3\" fill=\"transparent\"/><path d=\"M160 110 C 190 90, 210 90, 240 110\" stroke=\"%23A52A2A\" stroke-width=\"2\" fill=\"transparent\"/><circle cx=\"180\" cy=\"100\" r=\"8\" fill=\"%23FF4500\"/><circle cx=\"200\" cy=\"95\" r=\"10\" fill=\"%23FF4500\"/><circle cx=\"220\" cy=\"100\" r=\"8\" fill=\"%23FF4500\"/></svg>')"></div>
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-800">ผัดกระเพรา</h3>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-lg font-bold text-indigo-600">฿65</span>
+                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
+                                    data-id="14" 
+                                    data-name="ผัดกระเพรา" 
+                                    data-price="65"
+                                    data-has-sizes="false">
+                                เพิ่ม
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- อาหารรายการที่ 15 (เครื่องดื่ม) -->
+                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="drinks">
+                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23E0FFFF\"/><path d=\"M170 40 L230 40 L220 160 L180 160 Z\" fill=\"%2387CEFA\"/><path d=\"M175 50 L225 50 L217 150 L183 150 Z\" fill=\"%23ADD8E6\"/><ellipse cx=\"200\" cy=\"50\" rx=\"25\" ry=\"5\" fill=\"%23FFFFFF\"/><circle cx=\"190\" cy=\"80\" r=\"5\" fill=\"%23FFFFFF\"/><circle cx=\"210\" cy=\"100\" r=\"5\" fill=\"%23FFFFFF\"/><circle cx=\"195\" cy=\"120\" r=\"5\" fill=\"%23FFFFFF\"/></svg>')"></div>
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-800">น้ำเปล่า</h3>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-lg font-bold text-indigo-600">฿15</span>
+                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
+                                    data-id="15" 
+                                    data-name="น้ำเปล่า" 
+                                    data-price="15"
+                                    data-has-sizes="false">
+                                เพิ่ม
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -387,7 +539,7 @@
 
     <!-- Modal สรุปออเดอร์ -->
     <div id="screenshot-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hide">
-        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 transform -translate-y-10">
+        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 transform -translate-y-10 max-h-[90vh] overflow-y-auto">
             <div class="p-6">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-2xl font-bold text-gray-800">สรุปออเดอร์</h3>
@@ -400,7 +552,7 @@
                 
                 <div id="screenshot-area" class="screenshot-area p-6 rounded-lg mb-6">
                     <h4 class="text-xl font-bold text-center mb-4">รายการสั่งอาหาร</h4>
-                    <div id="screenshot-items" class="mb-4 space-y-2"></div>
+                    <div id="screenshot-items" class="mb-4 space-y-2 scrollable-content"></div>
                     
                     <div class="mt-4">
                         <p class="font-semibold">ที่อยู่จัดส่ง:</p>
@@ -872,44 +1024,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96555bc6166755a1',t:'MTc1MzU0ODIzMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96556be081002603',t:'MTc1MzU0ODg5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
-<div class="category-tab" data-category="dessert">ของหวาน</div>
-
-<div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="dessert">
-    <div class="h-48 bg-cover bg-center" style="background-image: url('รูปภาพของอาหาร')"></div>
-    <div class="p-4">
-        <h3 class="text-xl font-semibold text-gray-800">ชื่ออาหาร</h3>
-        <div class="flex justify-between items-center mt-2">
-            <span class="text-lg font-bold text-indigo-600">฿ราคา</span>
-            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
-                    data-id="9" 
-                    data-name="ชื่ออาหาร" 
-                    data-price="ราคา"
-                    data-has-sizes="true หรือ false"
-                    data-sizes='[{"name":"ขนาด1", "price":ราคา1}, {"name":"ขนาด2", "price":ราคา2}]'>
-                เพิ่ม
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- ตัวอย่างการเพิ่มรายการของหวาน -->
-<div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="dessert">
-    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFF0F5\"/><circle cx=\"200\" cy=\"100\" r=\"50\" fill=\"%23FFB6C1\"/><circle cx=\"200\" cy=\"100\" r=\"40\" fill=\"%23FFC0CB\"/><rect x=\"180\" y=\"60\" width=\"40\" height=\"5\" fill=\"%23A52A2A\"/></svg>')"></div>
-    <div class="p-4">
-        <h3 class="text-xl font-semibold text-gray-800">ไอศกรีม</h3>
-        <div class="flex justify-between items-center mt-2">
-            <span class="text-lg font-bold text-indigo-600">฿35</span>
-            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
-                    data-id="9" 
-                    data-name="ไอศกรีม" 
-                    data-price="35"
-                    data-has-sizes="true"
-                    data-sizes='[{"name":"1 ลูก", "price":35}, {"name":"2 ลูก", "price":60}, {"name":"3 ลูก", "price":80}]'>
-                เพิ่ม
-            </button>
-        </div>
-    </div>
-</div>
