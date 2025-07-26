@@ -144,6 +144,26 @@
         .scrollable-content::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
+        /* สไตล์สำหรับ loading spinner */
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #4f46e5;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -154,295 +174,19 @@
         </header>
 
         <!-- หมวดหมู่อาหาร -->
-        <div class="category-tabs mb-6">
+        <div id="category-tabs" class="category-tabs mb-6">
             <div class="category-tab active" data-category="all">ทั้งหมด</div>
-            <div class="category-tab" data-category="burger">เบอร์เกอร์</div>
-            <div class="category-tab" data-category="pasta">พาสต้า</div>
-            <div class="category-tab" data-category="thai">อาหารไทย</div>
-            <div class="category-tab" data-category="drinks">เครื่องดื่ม</div>
-            <div class="category-tab" data-category="dessert">ของหวาน</div>
-            <div class="category-tab" data-category="salad">สลัด</div>
+            <!-- หมวดหมู่อื่นๆ จะถูกเพิ่มโดย JavaScript -->
         </div>
 
         <!-- รายการอาหาร -->
         <div class="food-category active" id="all-foods">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                <!-- อาหารรายการที่ 1 -->
-                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="burger">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFA07A\"/><circle cx=\"200\" cy=\"100\" r=\"60\" fill=\"%23CD5C5C\"/><path d=\"M200 160 C 150 140, 150 60, 200 40 C 250 60, 250 140, 200 160 Z\" fill=\"%23F5DEB3\"/><circle cx=\"200\" cy=\"80\" r=\"10\" fill=\"%23FFD700\"/><circle cx=\"180\" cy=\"100\" r=\"8\" fill=\"%23808000\"/><circle cx=\"220\" cy=\"100\" r=\"8\" fill=\"%23808000\"/><circle cx=\"200\" cy=\"120\" r=\"5\" fill=\"%23FF6347\"/></svg>')"></div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold text-gray-800">เบอร์เกอร์เนื้อ</h3>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-lg font-bold text-indigo-600">฿89</span>
-                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
-                                    data-id="1" 
-                                    data-name="เบอร์เกอร์เนื้อ" 
-                                    data-price="89"
-                                    data-has-sizes="true"
-                                    data-sizes='[{"name":"ธรรมดา", "price":89}, {"name":"พิเศษ", "price":119}, {"name":"จัมโบ้", "price":149}]'>
-                                เพิ่ม
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- อาหารรายการที่ 2 -->
-                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="burger">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFE4B5\"/><rect x=\"100\" y=\"60\" width=\"200\" height=\"20\" fill=\"%23D2691E\"/><rect x=\"100\" y=\"80\" width=\"200\" height=\"20\" fill=\"%23228B22\"/><rect x=\"100\" y=\"100\" width=\"200\" height=\"20\" fill=\"%23F4A460\"/><rect x=\"100\" y=\"120\" width=\"200\" height=\"20\" fill=\"%23CD853F\"/><circle cx=\"320\" cy=\"60\" r=\"30\" fill=\"%23FF6347\"/></svg>')"></div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold text-gray-800">แซนด์วิชไก่</h3>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-lg font-bold text-indigo-600">฿65</span>
-                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
-                                    data-id="2" 
-                                    data-name="แซนด์วิชไก่" 
-                                    data-price="65"
-                                    data-has-sizes="false">
-                                เพิ่ม
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- อาหารรายการที่ 3 -->
-                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="pasta">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23F5DEB3\"/><circle cx=\"200\" cy=\"100\" r=\"80\" fill=\"%23FFD700\"/><circle cx=\"200\" cy=\"100\" r=\"60\" fill=\"%23FF4500\"/><circle cx=\"200\" cy=\"100\" r=\"40\" fill=\"%23FFA500\"/><rect x=\"160\" y=\"40\" width=\"80\" height=\"10\" fill=\"%23A52A2A\"/><rect x=\"160\" y=\"150\" width=\"80\" height=\"10\" fill=\"%23A52A2A\"/><rect x=\"140\" y=\"60\" width=\"120\" height=\"10\" fill=\"%23A52A2A\"/><rect x=\"140\" y=\"130\" width=\"120\" height=\"10\" fill=\"%23A52A2A\"/></svg>')"></div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold text-gray-800">พิซซ่า</h3>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-lg font-bold text-indigo-600">฿159</span>
-                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
-                                    data-id="3" 
-                                    data-name="พิซซ่า" 
-                                    data-price="159"
-                                    data-has-sizes="true"
-                                    data-sizes='[{"name":"เล็ก", "price":159}, {"name":"กลาง", "price":259}, {"name":"ใหญ่", "price":359}]'>
-                                เพิ่ม
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- อาหารรายการที่ 4 -->
-                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="pasta">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFDAB9\"/><rect x=\"120\" y=\"60\" width=\"160\" height=\"100\" rx=\"5\" ry=\"5\" fill=\"%23F5F5DC\"/><path d=\"M120 80 L280 80\" stroke=\"%23CD853F\" stroke-width=\"2\"/><path d=\"M120 100 L280 100\" stroke=\"%23CD853F\" stroke-width=\"2\"/><path d=\"M120 120 L280 120\" stroke=\"%23CD853F\" stroke-width=\"2\"/><path d=\"M120 140 L280 140\" stroke=\"%23CD853F\" stroke-width=\"2\"/><circle cx=\"150\" cy=\"70\" r=\"5\" fill=\"%23FF6347\"/><circle cx=\"170\" cy=\"70\" r=\"5\" fill=\"%23FF6347\"/><circle cx=\"190\" cy=\"70\" r=\"5\" fill=\"%23FF6347\"/><circle cx=\"150\" cy=\"90\" r=\"5\" fill=\"%23FF6347\"/><circle cx=\"170\" cy=\"90\" r=\"5\" fill=\"%23FF6347\"/><circle cx=\"190\" cy=\"90\" r=\"5\" fill=\"%23FF6347\"/></svg>')"></div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold text-gray-800">สปาเก็ตตี้</h3>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-lg font-bold text-indigo-600">฿95</span>
-                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
-                                    data-id="4" 
-                                    data-name="สปาเก็ตตี้" 
-                                    data-price="95"
-                                    data-has-sizes="false">
-                                เพิ่ม
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- อาหารรายการที่ 5 -->
-                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="thai">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23E6E6FA\"/><rect x=\"120\" y=\"60\" width=\"160\" height=\"80\" rx=\"10\" ry=\"10\" fill=\"%23FFF8DC\"/><ellipse cx=\"200\" cy=\"100\" rx=\"50\" ry=\"30\" fill=\"%23FFD700\"/><ellipse cx=\"200\" cy=\"100\" rx=\"30\" ry=\"15\" fill=\"%23FF8C00\"/><rect x=\"140\" y=\"140\" width=\"120\" height=\"10\" rx=\"5\" ry=\"5\" fill=\"%23D2691E\"/></svg>')"></div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold text-gray-800">ข้าวผัด</h3>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-lg font-bold text-indigo-600">฿60</span>
-                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
-                                    data-id="5" 
-                                    data-name="ข้าวผัด" 
-                                    data-price="60"
-                                    data-has-sizes="false">
-                                เพิ่ม
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- อาหารรายการที่ 6 -->
-                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="thai">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23F0FFF0\"/><ellipse cx=\"200\" cy=\"120\" rx=\"80\" ry=\"20\" fill=\"%23F5DEB3\"/><ellipse cx=\"200\" cy=\"110\" rx=\"70\" ry=\"30\" fill=\"%23E6E6FA\"/><circle cx=\"180\" cy=\"100\" r=\"10\" fill=\"%23FF6347\"/><circle cx=\"210\" cy=\"105\" r=\"8\" fill=\"%23FF6347\"/><circle cx=\"190\" cy=\"115\" r=\"12\" fill=\"%23FF6347\"/><circle cx=\"220\" cy=\"95\" r=\"9\" fill=\"%23FF6347\"/><circle cx=\"170\" cy=\"90\" r=\"7\" fill=\"%23FF6347\"/><path d=\"M150 90 C 180 70, 220 70, 250 90\" stroke=\"%23228B22\" stroke-width=\"3\" fill=\"transparent\"/></svg>')"></div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold text-gray-800">ต้มยำกุ้ง</h3>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-lg font-bold text-indigo-600">฿120</span>
-                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
-                                    data-id="6" 
-                                    data-name="ต้มยำกุ้ง" 
-                                    data-price="120"
-                                    data-has-sizes="true"
-                                    data-sizes='[{"name":"ธรรมดา", "price":120}, {"name":"พิเศษ", "price":180}]'>
-                                เพิ่ม
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- อาหารรายการที่ 7 (เครื่องดื่ม) -->
-                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="drinks">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23E0FFFF\"/><path d=\"M180 40 L220 40 L210 160 L190 160 Z\" fill=\"%23D2B48C\"/><path d=\"M185 50 L215 50 L207 150 L193 150 Z\" fill=\"%236B4226\"/><ellipse cx=\"200\" cy=\"40\" rx=\"20\" ry=\"5\" fill=\"%23FFFFFF\"/><path d=\"M190 40 C 190 30, 210 30, 210 40\" stroke=\"%23000000\" stroke-width=\"2\" fill=\"transparent\"/></svg>')"></div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold text-gray-800">กาแฟ</h3>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-lg font-bold text-indigo-600">฿45</span>
-                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
-                                    data-id="7" 
-                                    data-name="กาแฟ" 
-                                    data-price="45"
-                                    data-has-sizes="true"
-                                    data-sizes='[{"name":"ร้อน", "price":45}, {"name":"เย็น", "price":55}]'>
-                                เพิ่ม
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- อาหารรายการที่ 8 (เครื่องดื่ม) -->
-                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="drinks">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFFACD\"/><path d=\"M170 40 L230 40 L220 160 L180 160 Z\" fill=\"%23FF7F50\"/><path d=\"M175 50 L225 50 L217 150 L183 150 Z\" fill=\"%23FFA07A\"/><ellipse cx=\"200\" cy=\"50\" rx=\"25\" ry=\"5\" fill=\"%23FFFFFF\"/><circle cx=\"190\" cy=\"80\" r=\"5\" fill=\"%23FF4500\"/><circle cx=\"210\" cy=\"100\" r=\"5\" fill=\"%23FF4500\"/><circle cx=\"195\" cy=\"120\" r=\"5\" fill=\"%23FF4500\"/></svg>')"></div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold text-gray-800">ชาไทย</h3>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-lg font-bold text-indigo-600">฿40</span>
-                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
-                                    data-id="8" 
-                                    data-name="ชาไทย" 
-                                    data-price="40"
-                                    data-has-sizes="true"
-                                    data-sizes='[{"name":"ร้อน", "price":40}, {"name":"เย็น", "price":50}]'>
-                                เพิ่ม
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- อาหารรายการที่ 9 (ของหวาน) -->
-                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="dessert">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFF0F5\"/><circle cx=\"200\" cy=\"100\" r=\"50\" fill=\"%23FFB6C1\"/><circle cx=\"200\" cy=\"100\" r=\"40\" fill=\"%23FFC0CB\"/><rect x=\"180\" y=\"60\" width=\"40\" height=\"5\" fill=\"%23A52A2A\"/></svg>')"></div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold text-gray-800">ไอศกรีม</h3>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-lg font-bold text-indigo-600">฿35</span>
-                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
-                                    data-id="9" 
-                                    data-name="ไอศกรีม" 
-                                    data-price="35"
-                                    data-has-sizes="true"
-                                    data-sizes='[{"name":"1 ลูก", "price":35}, {"name":"2 ลูก", "price":60}, {"name":"3 ลูก", "price":80}]'>
-                                เพิ่ม
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- อาหารรายการที่ 10 (ของหวาน) -->
-                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="dessert">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFFAF0\"/><rect x=\"150\" y=\"70\" width=\"100\" height=\"60\" rx=\"5\" ry=\"5\" fill=\"%23F5DEB3\"/><rect x=\"150\" y=\"70\" width=\"100\" height=\"20\" fill=\"%23D2B48C\"/><circle cx=\"170\" cy=\"80\" r=\"5\" fill=\"%238B4513\"/><circle cx=\"190\" cy=\"80\" r=\"5\" fill=\"%238B4513\"/><circle cx=\"210\" cy=\"80\" r=\"5\" fill=\"%238B4513\"/><circle cx=\"230\" cy=\"80\" r=\"5\" fill=\"%238B4513\"/></svg>')"></div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold text-gray-800">บราวนี่</h3>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-lg font-bold text-indigo-600">฿45</span>
-                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
-                                    data-id="10" 
-                                    data-name="บราวนี่" 
-                                    data-price="45"
-                                    data-has-sizes="false">
-                                เพิ่ม
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- อาหารรายการที่ 11 (สลัด) -->
-                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="salad">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23F0FFF0\"/><ellipse cx=\"200\" cy=\"120\" rx=\"70\" ry=\"30\" fill=\"%2390EE90\"/><circle cx=\"180\" cy=\"100\" r=\"10\" fill=\"%23FF6347\"/><circle cx=\"220\" cy=\"110\" r=\"8\" fill=\"%23FF6347\"/><circle cx=\"190\" cy=\"115\" r=\"7\" fill=\"%23FFD700\"/><circle cx=\"210\" cy=\"95\" r=\"9\" fill=\"%23FFD700\"/><path d=\"M150 100 C 180 80, 220 80, 250 100\" stroke=\"%23228B22\" stroke-width=\"3\" fill=\"transparent\"/><path d=\"M160 110 C 190 90, 210 90, 240 110\" stroke=\"%23228B22\" stroke-width=\"2\" fill=\"transparent\"/></svg>')"></div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold text-gray-800">สลัดผัก</h3>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-lg font-bold text-indigo-600">฿75</span>
-                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
-                                    data-id="11" 
-                                    data-name="สลัดผัก" 
-                                    data-price="75"
-                                    data-has-sizes="false">
-                                เพิ่ม
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- อาหารรายการที่ 12 (สลัด) -->
-                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="salad">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23F5FFFA\"/><ellipse cx=\"200\" cy=\"120\" rx=\"70\" ry=\"30\" fill=\"%2390EE90\"/><rect x=\"180\" y=\"70\" width=\"40\" height=\"30\" fill=\"%23CD853F\"/><circle cx=\"170\" cy=\"100\" r=\"10\" fill=\"%23FF6347\"/><circle cx=\"230\" cy=\"110\" r=\"8\" fill=\"%23FF6347\"/><circle cx=\"190\" cy=\"115\" r=\"7\" fill=\"%23FFD700\"/><circle cx=\"210\" cy=\"95\" r=\"9\" fill=\"%23FFD700\"/><path d=\"M150 100 C 180 80, 220 80, 250 100\" stroke=\"%23228B22\" stroke-width=\"3\" fill=\"transparent\"/></svg>')"></div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold text-gray-800">สลัดไก่</h3>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-lg font-bold text-indigo-600">฿95</span>
-                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
-                                    data-id="12" 
-                                    data-name="สลัดไก่" 
-                                    data-price="95"
-                                    data-has-sizes="false">
-                                เพิ่ม
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- อาหารรายการที่ 13 (เบอร์เกอร์) -->
-                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="burger">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFE4C4\"/><circle cx=\"200\" cy=\"100\" r=\"60\" fill=\"%23DEB887\"/><path d=\"M200 160 C 150 140, 150 60, 200 40 C 250 60, 250 140, 200 160 Z\" fill=\"%23F5DEB3\"/><circle cx=\"180\" cy=\"90\" r=\"10\" fill=\"%23228B22\"/><circle cx=\"220\" cy=\"90\" r=\"10\" fill=\"%23228B22\"/><rect x=\"170\" y=\"110\" width=\"60\" height=\"10\" fill=\"%23FF6347\"/><rect x=\"180\" y=\"120\" width=\"40\" height=\"5\" fill=\"%23FFD700\"/></svg>')"></div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold text-gray-800">เบอร์เกอร์หมู</h3>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-lg font-bold text-indigo-600">฿79</span>
-                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
-                                    data-id="13" 
-                                    data-name="เบอร์เกอร์หมู" 
-                                    data-price="79"
-                                    data-has-sizes="true"
-                                    data-sizes='[{"name":"ธรรมดา", "price":79}, {"name":"พิเศษ", "price":109}, {"name":"จัมโบ้", "price":139}]'>
-                                เพิ่ม
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- อาหารรายการที่ 14 (อาหารไทย) -->
-                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="thai">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFF8DC\"/><ellipse cx=\"200\" cy=\"120\" rx=\"80\" ry=\"20\" fill=\"%23F5DEB3\"/><path d=\"M150 100 C 180 80, 220 80, 250 100\" stroke=\"%23A52A2A\" stroke-width=\"3\" fill=\"transparent\"/><path d=\"M160 110 C 190 90, 210 90, 240 110\" stroke=\"%23A52A2A\" stroke-width=\"2\" fill=\"transparent\"/><circle cx=\"180\" cy=\"100\" r=\"8\" fill=\"%23FF4500\"/><circle cx=\"200\" cy=\"95\" r=\"10\" fill=\"%23FF4500\"/><circle cx=\"220\" cy=\"100\" r=\"8\" fill=\"%23FF4500\"/></svg>')"></div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold text-gray-800">ผัดกระเพรา</h3>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-lg font-bold text-indigo-600">฿65</span>
-                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
-                                    data-id="14" 
-                                    data-name="ผัดกระเพรา" 
-                                    data-price="65"
-                                    data-has-sizes="false">
-                                เพิ่ม
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- อาหารรายการที่ 15 (เครื่องดื่ม) -->
-                <div class="menu-item bg-white rounded-lg overflow-hidden shadow-lg" data-category="drinks">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23E0FFFF\"/><path d=\"M170 40 L230 40 L220 160 L180 160 Z\" fill=\"%2387CEFA\"/><path d=\"M175 50 L225 50 L217 150 L183 150 Z\" fill=\"%23ADD8E6\"/><ellipse cx=\"200\" cy=\"50\" rx=\"25\" ry=\"5\" fill=\"%23FFFFFF\"/><circle cx=\"190\" cy=\"80\" r=\"5\" fill=\"%23FFFFFF\"/><circle cx=\"210\" cy=\"100\" r=\"5\" fill=\"%23FFFFFF\"/><circle cx=\"195\" cy=\"120\" r=\"5\" fill=\"%23FFFFFF\"/></svg>')"></div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold text-gray-800">น้ำเปล่า</h3>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-lg font-bold text-indigo-600">฿15</span>
-                            <button class="add-to-cart btn-primary text-white px-4 py-2 rounded-lg" 
-                                    data-id="15" 
-                                    data-name="น้ำเปล่า" 
-                                    data-price="15"
-                                    data-has-sizes="false">
-                                เพิ่ม
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div id="loading-container" class="loading-container">
+                <div class="loading-spinner mb-4"></div>
+                <p class="text-gray-600">กำลังโหลดรายการอาหาร...</p>
+            </div>
+            <div id="menu-items-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8" style="display: none;">
+                <!-- รายการอาหารจะถูกเพิ่มโดย JavaScript -->
             </div>
         </div>
 
@@ -610,6 +354,22 @@
         </div>
     </div>
 
+    <!-- Modal แสดงข้อผิดพลาด -->
+    <div id="error-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hide">
+        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-md mx-4 transform -translate-y-10">
+            <div class="p-6 text-center">
+                <svg class="w-16 h-16 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">เกิดข้อผิดพลาด</h3>
+                <p id="error-message" class="text-gray-600 mb-6">ไม่สามารถโหลดข้อมูลเมนูอาหารได้ กรุณาลองใหม่อีกครั้ง</p>
+                <button id="close-error-modal" class="btn-primary text-white px-6 py-2 rounded-lg">
+                    ตกลง
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // ตัวแปรสำหรับเก็บค่าต่างๆ
@@ -617,19 +377,26 @@
             let currentItem = null;
             let selectedSize = null;
             let currentQuantity = 1;
+            let menuItems = [];
+            let categories = [];
             
             // ค่าคงที่
             const FREE_SHIPPING_THRESHOLD = 100;
             const SHIPPING_FEE = 10;
             
+            // Google Sheets API URL
+            // ตัวอย่าง URL สำหรับเชื่อมต่อกับ Google Sheets (คุณต้องแทนที่ด้วย URL จริงของคุณ)
+            const SHEET_URL = "https://script.google.com/macros/s/YOUR_GOOGLE_SCRIPT_ID/exec";
+            
             // DOM Elements
             const addItemModal = document.getElementById('add-item-modal');
             const screenshotModal = document.getElementById('screenshot-modal');
             const copySuccessModal = document.getElementById('copy-success-modal');
-            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            const errorModal = document.getElementById('error-modal');
             const closeModalButton = document.getElementById('close-modal');
             const closeScreenshotModalButton = document.getElementById('close-screenshot-modal');
             const closeCopySuccessModalButton = document.getElementById('close-copy-success-modal');
+            const closeErrorModalButton = document.getElementById('close-error-modal');
             const decreaseQuantityButton = document.getElementById('decrease-quantity');
             const increaseQuantityButton = document.getElementById('increase-quantity');
             const quantityElement = document.getElementById('quantity');
@@ -640,16 +407,15 @@
             const textPreview = document.getElementById('text-preview');
             const deliveryAddressInput = document.getElementById('delivery-address');
             const addressError = document.getElementById('address-error');
-            const categoryTabs = document.querySelectorAll('.category-tab');
+            const categoryTabsContainer = document.getElementById('category-tabs');
+            const menuItemsContainer = document.getElementById('menu-items-container');
+            const loadingContainer = document.getElementById('loading-container');
             
             // Event Listeners
-            addToCartButtons.forEach(button => {
-                button.addEventListener('click', openAddItemModal);
-            });
-            
             closeModalButton.addEventListener('click', closeAddItemModal);
             closeScreenshotModalButton.addEventListener('click', closeScreenshotModal);
             closeCopySuccessModalButton.addEventListener('click', closeCopySuccessModal);
+            closeErrorModalButton.addEventListener('click', closeErrorModal);
             decreaseQuantityButton.addEventListener('click', decreaseQuantity);
             increaseQuantityButton.addEventListener('click', increaseQuantity);
             addToCartConfirmButton.addEventListener('click', confirmAddToCart);
@@ -661,23 +427,287 @@
                 addressError.classList.remove('show');
             });
             
-            // การจัดการแท็บหมวดหมู่
-            categoryTabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const category = this.dataset.category;
-                    
-                    // ลบคลาส active จากแท็บทั้งหมด
-                    categoryTabs.forEach(t => t.classList.remove('active'));
-                    
-                    // เพิ่มคลาส active ให้แท็บที่ถูกคลิก
-                    this.classList.add('active');
-                    
-                    // แสดงรายการอาหารตามหมวดหมู่
-                    filterFoodByCategory(category);
-                });
-            });
+            // โหลดข้อมูลเมนูอาหารจาก Google Sheets
+            fetchMenuData();
             
             // Functions
+            function fetchMenuData() {
+                // แสดง loading spinner
+                loadingContainer.style.display = 'flex';
+                menuItemsContainer.style.display = 'none';
+                
+                // ในสถานการณ์จริง คุณจะใช้ fetch API เพื่อดึงข้อมูลจาก Google Sheets
+                // แต่เนื่องจากนี่เป็นตัวอย่าง เราจะจำลองการดึงข้อมูล
+                
+                // สำหรับการทดสอบ เราจะใช้ข้อมูลจำลอง
+                setTimeout(() => {
+                    // จำลองข้อมูลที่ได้จาก Google Sheets
+                    const mockData = {
+                        categories: [
+                            { id: "burger", name: "เบอร์เกอร์" },
+                            { id: "pasta", name: "พาสต้า" },
+                            { id: "thai", name: "อาหารไทย" },
+                            { id: "drinks", name: "เครื่องดื่ม" },
+                            { id: "dessert", name: "ของหวาน" },
+                            { id: "salad", name: "สลัด" }
+                        ],
+                        items: [
+                            {
+                                id: "1",
+                                name: "เบอร์เกอร์เนื้อ",
+                                price: 89,
+                                category: "burger",
+                                image: "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFA07A\"/><circle cx=\"200\" cy=\"100\" r=\"60\" fill=\"%23CD5C5C\"/><path d=\"M200 160 C 150 140, 150 60, 200 40 C 250 60, 250 140, 200 160 Z\" fill=\"%23F5DEB3\"/><circle cx=\"200\" cy=\"80\" r=\"10\" fill=\"%23FFD700\"/><circle cx=\"180\" cy=\"100\" r=\"8\" fill=\"%23808000\"/><circle cx=\"220\" cy=\"100\" r=\"8\" fill=\"%23808000\"/><circle cx=\"200\" cy=\"120\" r=\"5\" fill=\"%23FF6347\"/></svg>",
+                                hasSizes: true,
+                                sizes: [
+                                    { name: "ธรรมดา", price: 89 },
+                                    { name: "พิเศษ", price: 119 },
+                                    { name: "จัมโบ้", price: 149 }
+                                ]
+                            },
+                            {
+                                id: "2",
+                                name: "แซนด์วิชไก่",
+                                price: 65,
+                                category: "burger",
+                                image: "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFE4B5\"/><rect x=\"100\" y=\"60\" width=\"200\" height=\"20\" fill=\"%23D2691E\"/><rect x=\"100\" y=\"80\" width=\"200\" height=\"20\" fill=\"%23228B22\"/><rect x=\"100\" y=\"100\" width=\"200\" height=\"20\" fill=\"%23F4A460\"/><rect x=\"100\" y=\"120\" width=\"200\" height=\"20\" fill=\"%23CD853F\"/><circle cx=\"320\" cy=\"60\" r=\"30\" fill=\"%23FF6347\"/></svg>",
+                                hasSizes: false
+                            },
+                            {
+                                id: "3",
+                                name: "พิซซ่า",
+                                price: 159,
+                                category: "pasta",
+                                image: "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23F5DEB3\"/><circle cx=\"200\" cy=\"100\" r=\"80\" fill=\"%23FFD700\"/><circle cx=\"200\" cy=\"100\" r=\"60\" fill=\"%23FF4500\"/><circle cx=\"200\" cy=\"100\" r=\"40\" fill=\"%23FFA500\"/><rect x=\"160\" y=\"40\" width=\"80\" height=\"10\" fill=\"%23A52A2A\"/><rect x=\"160\" y=\"150\" width=\"80\" height=\"10\" fill=\"%23A52A2A\"/><rect x=\"140\" y=\"60\" width=\"120\" height=\"10\" fill=\"%23A52A2A\"/><rect x=\"140\" y=\"130\" width=\"120\" height=\"10\" fill=\"%23A52A2A\"/></svg>",
+                                hasSizes: true,
+                                sizes: [
+                                    { name: "เล็ก", price: 159 },
+                                    { name: "กลาง", price: 259 },
+                                    { name: "ใหญ่", price: 359 }
+                                ]
+                            },
+                            {
+                                id: "4",
+                                name: "สปาเก็ตตี้",
+                                price: 95,
+                                category: "pasta",
+                                image: "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFDAB9\"/><rect x=\"120\" y=\"60\" width=\"160\" height=\"100\" rx=\"5\" ry=\"5\" fill=\"%23F5F5DC\"/><path d=\"M120 80 L280 80\" stroke=\"%23CD853F\" stroke-width=\"2\"/><path d=\"M120 100 L280 100\" stroke=\"%23CD853F\" stroke-width=\"2\"/><path d=\"M120 120 L280 120\" stroke=\"%23CD853F\" stroke-width=\"2\"/><path d=\"M120 140 L280 140\" stroke=\"%23CD853F\" stroke-width=\"2\"/><circle cx=\"150\" cy=\"70\" r=\"5\" fill=\"%23FF6347\"/><circle cx=\"170\" cy=\"70\" r=\"5\" fill=\"%23FF6347\"/><circle cx=\"190\" cy=\"70\" r=\"5\" fill=\"%23FF6347\"/><circle cx=\"150\" cy=\"90\" r=\"5\" fill=\"%23FF6347\"/><circle cx=\"170\" cy=\"90\" r=\"5\" fill=\"%23FF6347\"/><circle cx=\"190\" cy=\"90\" r=\"5\" fill=\"%23FF6347\"/></svg>",
+                                hasSizes: false
+                            },
+                            {
+                                id: "5",
+                                name: "ข้าวผัด",
+                                price: 60,
+                                category: "thai",
+                                image: "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23E6E6FA\"/><rect x=\"120\" y=\"60\" width=\"160\" height=\"80\" rx=\"10\" ry=\"10\" fill=\"%23FFF8DC\"/><ellipse cx=\"200\" cy=\"100\" rx=\"50\" ry=\"30\" fill=\"%23FFD700\"/><ellipse cx=\"200\" cy=\"100\" rx=\"30\" ry=\"15\" fill=\"%23FF8C00\"/><rect x=\"140\" y=\"140\" width=\"120\" height=\"10\" rx=\"5\" ry=\"5\" fill=\"%23D2691E\"/></svg>",
+                                hasSizes: false
+                            },
+                            {
+                                id: "6",
+                                name: "ต้มยำกุ้ง",
+                                price: 120,
+                                category: "thai",
+                                image: "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23F0FFF0\"/><ellipse cx=\"200\" cy=\"120\" rx=\"80\" ry=\"20\" fill=\"%23F5DEB3\"/><ellipse cx=\"200\" cy=\"110\" rx=\"70\" ry=\"30\" fill=\"%23E6E6FA\"/><circle cx=\"180\" cy=\"100\" r=\"10\" fill=\"%23FF6347\"/><circle cx=\"210\" cy=\"105\" r=\"8\" fill=\"%23FF6347\"/><circle cx=\"190\" cy=\"115\" r=\"12\" fill=\"%23FF6347\"/><circle cx=\"220\" cy=\"95\" r=\"9\" fill=\"%23FF6347\"/><circle cx=\"170\" cy=\"90\" r=\"7\" fill=\"%23FF6347\"/><path d=\"M150 90 C 180 70, 220 70, 250 90\" stroke=\"%23228B22\" stroke-width=\"3\" fill=\"transparent\"/></svg>",
+                                hasSizes: true,
+                                sizes: [
+                                    { name: "ธรรมดา", price: 120 },
+                                    { name: "พิเศษ", price: 180 }
+                                ]
+                            },
+                            {
+                                id: "7",
+                                name: "กาแฟ",
+                                price: 45,
+                                category: "drinks",
+                                image: "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23E0FFFF\"/><path d=\"M180 40 L220 40 L210 160 L190 160 Z\" fill=\"%23D2B48C\"/><path d=\"M185 50 L215 50 L207 150 L193 150 Z\" fill=\"%236B4226\"/><ellipse cx=\"200\" cy=\"40\" rx=\"20\" ry=\"5\" fill=\"%23FFFFFF\"/><path d=\"M190 40 C 190 30, 210 30, 210 40\" stroke=\"%23000000\" stroke-width=\"2\" fill=\"transparent\"/></svg>",
+                                hasSizes: true,
+                                sizes: [
+                                    { name: "ร้อน", price: 45 },
+                                    { name: "เย็น", price: 55 }
+                                ]
+                            },
+                            {
+                                id: "8",
+                                name: "ชาไทย",
+                                price: 40,
+                                category: "drinks",
+                                image: "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFFACD\"/><path d=\"M170 40 L230 40 L220 160 L180 160 Z\" fill=\"%23FF7F50\"/><path d=\"M175 50 L225 50 L217 150 L183 150 Z\" fill=\"%23FFA07A\"/><ellipse cx=\"200\" cy=\"50\" rx=\"25\" ry=\"5\" fill=\"%23FFFFFF\"/><circle cx=\"190\" cy=\"80\" r=\"5\" fill=\"%23FF4500\"/><circle cx=\"210\" cy=\"100\" r=\"5\" fill=\"%23FF4500\"/><circle cx=\"195\" cy=\"120\" r=\"5\" fill=\"%23FF4500\"/></svg>",
+                                hasSizes: true,
+                                sizes: [
+                                    { name: "ร้อน", price: 40 },
+                                    { name: "เย็น", price: 50 }
+                                ]
+                            },
+                            {
+                                id: "9",
+                                name: "ไอศกรีม",
+                                price: 35,
+                                category: "dessert",
+                                image: "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFF0F5\"/><circle cx=\"200\" cy=\"100\" r=\"50\" fill=\"%23FFB6C1\"/><circle cx=\"200\" cy=\"100\" r=\"40\" fill=\"%23FFC0CB\"/><rect x=\"180\" y=\"60\" width=\"40\" height=\"5\" fill=\"%23A52A2A\"/></svg>",
+                                hasSizes: true,
+                                sizes: [
+                                    { name: "1 ลูก", price: 35 },
+                                    { name: "2 ลูก", price: 60 },
+                                    { name: "3 ลูก", price: 80 }
+                                ]
+                            },
+                            {
+                                id: "10",
+                                name: "บราวนี่",
+                                price: 45,
+                                category: "dessert",
+                                image: "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFFAF0\"/><rect x=\"150\" y=\"70\" width=\"100\" height=\"60\" rx=\"5\" ry=\"5\" fill=\"%23F5DEB3\"/><rect x=\"150\" y=\"70\" width=\"100\" height=\"20\" fill=\"%23D2B48C\"/><circle cx=\"170\" cy=\"80\" r=\"5\" fill=\"%238B4513\"/><circle cx=\"190\" cy=\"80\" r=\"5\" fill=\"%238B4513\"/><circle cx=\"210\" cy=\"80\" r=\"5\" fill=\"%238B4513\"/><circle cx=\"230\" cy=\"80\" r=\"5\" fill=\"%238B4513\"/></svg>",
+                                hasSizes: false
+                            },
+                            {
+                                id: "11",
+                                name: "สลัดผัก",
+                                price: 75,
+                                category: "salad",
+                                image: "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23F0FFF0\"/><ellipse cx=\"200\" cy=\"120\" rx=\"70\" ry=\"30\" fill=\"%2390EE90\"/><circle cx=\"180\" cy=\"100\" r=\"10\" fill=\"%23FF6347\"/><circle cx=\"220\" cy=\"110\" r=\"8\" fill=\"%23FF6347\"/><circle cx=\"190\" cy=\"115\" r=\"7\" fill=\"%23FFD700\"/><circle cx=\"210\" cy=\"95\" r=\"9\" fill=\"%23FFD700\"/><path d=\"M150 100 C 180 80, 220 80, 250 100\" stroke=\"%23228B22\" stroke-width=\"3\" fill=\"transparent\"/><path d=\"M160 110 C 190 90, 210 90, 240 110\" stroke=\"%23228B22\" stroke-width=\"2\" fill=\"transparent\"/></svg>",
+                                hasSizes: false
+                            },
+                            {
+                                id: "12",
+                                name: "สลัดไก่",
+                                price: 95,
+                                category: "salad",
+                                image: "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23F5FFFA\"/><ellipse cx=\"200\" cy=\"120\" rx=\"70\" ry=\"30\" fill=\"%2390EE90\"/><rect x=\"180\" y=\"70\" width=\"40\" height=\"30\" fill=\"%23CD853F\"/><circle cx=\"170\" cy=\"100\" r=\"10\" fill=\"%23FF6347\"/><circle cx=\"230\" cy=\"110\" r=\"8\" fill=\"%23FF6347\"/><circle cx=\"190\" cy=\"115\" r=\"7\" fill=\"%23FFD700\"/><circle cx=\"210\" cy=\"95\" r=\"9\" fill=\"%23FFD700\"/><path d=\"M150 100 C 180 80, 220 80, 250 100\" stroke=\"%23228B22\" stroke-width=\"3\" fill=\"transparent\"/></svg>",
+                                hasSizes: false
+                            },
+                            {
+                                id: "13",
+                                name: "เบอร์เกอร์หมู",
+                                price: 79,
+                                category: "burger",
+                                image: "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFE4C4\"/><circle cx=\"200\" cy=\"100\" r=\"60\" fill=\"%23DEB887\"/><path d=\"M200 160 C 150 140, 150 60, 200 40 C 250 60, 250 140, 200 160 Z\" fill=\"%23F5DEB3\"/><circle cx=\"180\" cy=\"90\" r=\"10\" fill=\"%23228B22\"/><circle cx=\"220\" cy=\"90\" r=\"10\" fill=\"%23228B22\"/><rect x=\"170\" y=\"110\" width=\"60\" height=\"10\" fill=\"%23FF6347\"/><rect x=\"180\" y=\"120\" width=\"40\" height=\"5\" fill=\"%23FFD700\"/></svg>",
+                                hasSizes: true,
+                                sizes: [
+                                    { name: "ธรรมดา", price: 79 },
+                                    { name: "พิเศษ", price: 109 },
+                                    { name: "จัมโบ้", price: 139 }
+                                ]
+                            },
+                            {
+                                id: "14",
+                                name: "ผัดกระเพรา",
+                                price: 65,
+                                category: "thai",
+                                image: "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23FFF8DC\"/><ellipse cx=\"200\" cy=\"120\" rx=\"80\" ry=\"20\" fill=\"%23F5DEB3\"/><path d=\"M150 100 C 180 80, 220 80, 250 100\" stroke=\"%23A52A2A\" stroke-width=\"3\" fill=\"transparent\"/><path d=\"M160 110 C 190 90, 210 90, 240 110\" stroke=\"%23A52A2A\" stroke-width=\"2\" fill=\"transparent\"/><circle cx=\"180\" cy=\"100\" r=\"8\" fill=\"%23FF4500\"/><circle cx=\"200\" cy=\"95\" r=\"10\" fill=\"%23FF4500\"/><circle cx=\"220\" cy=\"100\" r=\"8\" fill=\"%23FF4500\"/></svg>",
+                                hasSizes: false
+                            },
+                            {
+                                id: "15",
+                                name: "น้ำเปล่า",
+                                price: 15,
+                                category: "drinks",
+                                image: "data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"200\" viewBox=\"0 0 400 200\"><rect width=\"400\" height=\"200\" fill=\"%23E0FFFF\"/><path d=\"M170 40 L230 40 L220 160 L180 160 Z\" fill=\"%2387CEFA\"/><path d=\"M175 50 L225 50 L217 150 L183 150 Z\" fill=\"%23ADD8E6\"/><ellipse cx=\"200\" cy=\"50\" rx=\"25\" ry=\"5\" fill=\"%23FFFFFF\"/><circle cx=\"190\" cy=\"80\" r=\"5\" fill=\"%23FFFFFF\"/><circle cx=\"210\" cy=\"100\" r=\"5\" fill=\"%23FFFFFF\"/><circle cx=\"195\" cy=\"120\" r=\"5\" fill=\"%23FFFFFF\"/></svg>",
+                                hasSizes: false
+                            }
+                        ]
+                    };
+                    
+                    // เก็บข้อมูลที่ได้
+                    menuItems = mockData.items;
+                    categories = mockData.categories;
+                    
+                    // สร้างแท็บหมวดหมู่
+                    createCategoryTabs();
+                    
+                    // สร้างรายการอาหาร
+                    createMenuItems();
+                    
+                    // ซ่อน loading spinner และแสดงรายการอาหาร
+                    loadingContainer.style.display = 'none';
+                    menuItemsContainer.style.display = 'grid';
+                }, 1500); // จำลองการโหลดข้อมูล 1.5 วินาที
+            }
+            
+            function createCategoryTabs() {
+                // เคลียร์แท็บเดิม ยกเว้นแท็บ "ทั้งหมด"
+                const allTab = categoryTabsContainer.querySelector('[data-category="all"]');
+                categoryTabsContainer.innerHTML = '';
+                categoryTabsContainer.appendChild(allTab);
+                
+                // สร้างแท็บใหม่จากข้อมูลที่ได้
+                categories.forEach(category => {
+                    const tab = document.createElement('div');
+                    tab.className = 'category-tab';
+                    tab.dataset.category = category.id;
+                    tab.textContent = category.name;
+                    
+                    tab.addEventListener('click', function() {
+                        const category = this.dataset.category;
+                        
+                        // ลบคลาส active จากแท็บทั้งหมด
+                        document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                        
+                        // เพิ่มคลาส active ให้แท็บที่ถูกคลิก
+                        this.classList.add('active');
+                        
+                        // แสดงรายการอาหารตามหมวดหมู่
+                        filterFoodByCategory(category);
+                    });
+                    
+                    categoryTabsContainer.appendChild(tab);
+                });
+            }
+            
+            function createMenuItems() {
+                // เคลียร์รายการอาหารเดิม
+                menuItemsContainer.innerHTML = '';
+                
+                // สร้างรายการอาหารใหม่จากข้อมูลที่ได้
+                menuItems.forEach(item => {
+                    const menuItem = document.createElement('div');
+                    menuItem.className = 'menu-item bg-white rounded-lg overflow-hidden shadow-lg';
+                    menuItem.dataset.category = item.category;
+                    
+                    const imageDiv = document.createElement('div');
+                    imageDiv.className = 'h-48 bg-cover bg-center';
+                    imageDiv.style.backgroundImage = `url('${item.image}')`;
+                    
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'p-4';
+                    
+                    const name = document.createElement('h3');
+                    name.className = 'text-xl font-semibold text-gray-800';
+                    name.textContent = item.name;
+                    
+                    const priceDiv = document.createElement('div');
+                    priceDiv.className = 'flex justify-between items-center mt-2';
+                    
+                    const price = document.createElement('span');
+                    price.className = 'text-lg font-bold text-indigo-600';
+                    price.textContent = `฿${formatNumber(item.price)}`;
+                    
+                    const addButton = document.createElement('button');
+                    addButton.className = 'add-to-cart btn-primary text-white px-4 py-2 rounded-lg';
+                    addButton.textContent = 'เพิ่ม';
+                    addButton.dataset.id = item.id;
+                    addButton.dataset.name = item.name;
+                    addButton.dataset.price = item.price;
+                    addButton.dataset.hasSizes = item.hasSizes;
+                    
+                    if (item.hasSizes && item.sizes) {
+                        addButton.dataset.sizes = JSON.stringify(item.sizes);
+                    }
+                    
+                    addButton.addEventListener('click', openAddItemModal);
+                    
+                    priceDiv.appendChild(price);
+                    priceDiv.appendChild(addButton);
+                    
+                    infoDiv.appendChild(name);
+                    infoDiv.appendChild(priceDiv);
+                    
+                    menuItem.appendChild(imageDiv);
+                    menuItem.appendChild(infoDiv);
+                    
+                    menuItemsContainer.appendChild(menuItem);
+                });
+            }
+            
             function filterFoodByCategory(category) {
                 const menuItems = document.querySelectorAll('.menu-item');
                 
@@ -741,6 +771,11 @@
             function closeCopySuccessModal() {
                 copySuccessModal.classList.remove('show');
                 copySuccessModal.classList.add('hide');
+            }
+            
+            function closeErrorModal() {
+                errorModal.classList.remove('show');
+                errorModal.classList.add('hide');
             }
             
             function showSizeOptions(sizes) {
@@ -1024,5 +1059,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96556be081002603',t:'MTc1MzU0ODg5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9655764bd0abce0f',t:'MTc1MzU0OTMxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
