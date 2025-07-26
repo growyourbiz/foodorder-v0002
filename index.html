@@ -72,6 +72,16 @@
             border: 2px solid #e5e7eb;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
+        .text-preview {
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: monospace;
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -198,6 +208,13 @@
         <!-- สรุปรายการสั่งซื้อ -->
         <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
             <h2 class="text-2xl font-bold text-gray-800 mb-4">สรุปรายการสั่งซื้อ</h2>
+            
+            <!-- ที่อยู่จัดส่ง -->
+            <div class="mb-6">
+                <label for="delivery-address" class="block text-gray-700 font-semibold mb-2">ที่อยู่จัดส่ง: กรุณาแจ้ง ตึก ชั้น ห้อง</label>
+                <textarea id="delivery-address" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="2" placeholder="ที่อยู่จัดส่งกรุณาแจ้ง ตึก ชั้น ห้อง"></textarea>
+            </div>
+            
             <div id="cart-items" class="mb-4">
                 <div class="text-gray-500 text-center py-8" id="empty-cart-message">
                     ยังไม่มีรายการอาหารที่สั่ง
@@ -220,7 +237,7 @@
             </div>
             <div class="mt-6 flex justify-center">
                 <button id="screenshot-btn" class="btn-success text-white px-6 py-3 rounded-lg text-lg font-semibold">
-                    แคปหน้าจอสรุปออเดอร์
+                    ดูสรุปออเดอร์
                 </button>
             </div>
         </div>
@@ -278,7 +295,7 @@
         </div>
     </div>
 
-    <!-- Modal แคปหน้าจอสรุปออเดอร์ -->
+    <!-- Modal สรุปออเดอร์ -->
     <div id="screenshot-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hide">
         <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 transform -translate-y-10">
             <div class="p-6">
@@ -294,6 +311,12 @@
                 <div id="screenshot-area" class="screenshot-area p-6 rounded-lg mb-6">
                     <h4 class="text-xl font-bold text-center mb-4">รายการสั่งอาหาร</h4>
                     <div id="screenshot-items" class="mb-4 space-y-2"></div>
+                    
+                    <div class="mt-4">
+                        <p class="font-semibold">ที่อยู่จัดส่ง:</p>
+                        <p id="screenshot-address" class="text-gray-700 ml-4">-</p>
+                    </div>
+                    
                     <div class="border-t border-gray-200 pt-4 mt-4">
                         <div class="flex justify-between items-center py-1">
                             <span class="font-semibold">ยอดรวมรายการ:</span>
@@ -310,14 +333,37 @@
                     </div>
                 </div>
                 
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button id="copy-text-btn" class="btn-primary text-white px-6 py-3 rounded-lg text-lg font-semibold">
-                        คัดลอกข้อความ แล้วส่งทางไลน์🛑
-                    </button>
-                    <button id="take-screenshot-btn" class="btn-success text-white px-6 py-3 rounded-lg text-lg font-semibold">
-                        แคปหน้าจอนี้ ส่งทางไลน์เพื่อสั่งอาหารได้เลยค่า😊😊
-                    </button>
+                <!-- ส่วนแสดงข้อความที่คัดลอก -->
+                <div id="text-preview-container" class="hidden mb-6">
+                    <h4 class="text-lg font-semibold mb-2">ข้อความที่จะคัดลอก:</h4>
+                    <div id="text-preview" class="text-preview"></div>
                 </div>
+                
+                <div class="flex flex-col gap-4 justify-center">
+                    <button id="copy-text-btn" class="btn-primary text-white px-6 py-3 rounded-lg text-lg font-semibold">
+                        คัดลอกข้อความ แล้วส่งทางไลน์😊
+                    </button>
+                    
+                    <a href="https://google.co.th" target="_blank" class="btn-success text-white px-6 py-3 rounded-lg text-lg font-semibold text-center">
+                        ไปที่เว็บไซต์ร้านอาหาร
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal แจ้งคัดลอกข้อความสำเร็จ -->
+    <div id="copy-success-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hide">
+        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-md mx-4 transform -translate-y-10">
+            <div class="p-6 text-center">
+                <svg class="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">คัดลอกข้อความแล้ว</h3>
+                <p class="text-gray-600 mb-6">คุณสามารถส่งข้อความที่คัดลอกผ่านทางแชทไลน์ได้เลยค่ะ👩</p>
+                <button id="close-copy-success-modal" class="btn-primary text-white px-6 py-2 rounded-lg">
+                    ตกลง
+                </button>
             </div>
         </div>
     </div>
@@ -337,16 +383,20 @@
             // DOM Elements
             const addItemModal = document.getElementById('add-item-modal');
             const screenshotModal = document.getElementById('screenshot-modal');
+            const copySuccessModal = document.getElementById('copy-success-modal');
             const addToCartButtons = document.querySelectorAll('.add-to-cart');
             const closeModalButton = document.getElementById('close-modal');
             const closeScreenshotModalButton = document.getElementById('close-screenshot-modal');
+            const closeCopySuccessModalButton = document.getElementById('close-copy-success-modal');
             const decreaseQuantityButton = document.getElementById('decrease-quantity');
             const increaseQuantityButton = document.getElementById('increase-quantity');
             const quantityElement = document.getElementById('quantity');
             const addToCartConfirmButton = document.getElementById('add-to-cart-confirm');
             const screenshotButton = document.getElementById('screenshot-btn');
             const copyTextButton = document.getElementById('copy-text-btn');
-            const takeScreenshotButton = document.getElementById('take-screenshot-btn');
+            const textPreviewContainer = document.getElementById('text-preview-container');
+            const textPreview = document.getElementById('text-preview');
+            const deliveryAddressInput = document.getElementById('delivery-address');
             
             // Event Listeners
             addToCartButtons.forEach(button => {
@@ -355,12 +405,12 @@
             
             closeModalButton.addEventListener('click', closeAddItemModal);
             closeScreenshotModalButton.addEventListener('click', closeScreenshotModal);
+            closeCopySuccessModalButton.addEventListener('click', closeCopySuccessModal);
             decreaseQuantityButton.addEventListener('click', decreaseQuantity);
             increaseQuantityButton.addEventListener('click', increaseQuantity);
             addToCartConfirmButton.addEventListener('click', confirmAddToCart);
             screenshotButton.addEventListener('click', openScreenshotModal);
-            copyTextButton.addEventListener('click', copyOrderText);
-            takeScreenshotButton.addEventListener('click', simulateScreenshot);
+            copyTextButton.addEventListener('click', showAndCopyOrderText);
             
             // Functions
             function openAddItemModal(event) {
@@ -408,6 +458,12 @@
             function closeScreenshotModal() {
                 screenshotModal.classList.remove('show');
                 screenshotModal.classList.add('hide');
+                textPreviewContainer.classList.add('hidden');
+            }
+            
+            function closeCopySuccessModal() {
+                copySuccessModal.classList.remove('show');
+                copySuccessModal.classList.add('hide');
             }
             
             function showSizeOptions(sizes) {
@@ -612,6 +668,9 @@
                     screenshotItems.appendChild(itemElement);
                 });
                 
+                const address = deliveryAddressInput.value.trim();
+                document.getElementById('screenshot-address').textContent = address || '-';
+                
                 const subtotal = cart.reduce((sum, item) => sum + item.total, 0);
                 const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
                 const total = subtotal + shipping;
@@ -620,14 +679,35 @@
                 document.getElementById('screenshot-shipping').textContent = shipping === 0 ? 'ฟรี!' : `฿${formatNumber(shipping)}`;
                 document.getElementById('screenshot-total').textContent = `฿${formatNumber(total)}`;
                 
+                // Hide text preview initially
+                textPreviewContainer.classList.add('hidden');
+                
                 screenshotModal.classList.remove('hide');
                 screenshotModal.classList.add('show');
             }
             
-            function copyOrderText() {
+            function showAndCopyOrderText() {
+                const orderText = generateOrderText();
+                textPreview.textContent = orderText;
+                textPreviewContainer.classList.remove('hidden');
+                
+                // Copy to clipboard
+                navigator.clipboard.writeText(orderText)
+                    .then(() => {
+                        copySuccessModal.classList.remove('hide');
+                        copySuccessModal.classList.add('show');
+                    })
+                    .catch(err => {
+                        console.error('ไม่สามารถคัดลอกข้อความได้: ', err);
+                        alert('ไม่สามารถคัดลอกข้อความได้ กรุณาลองอีกครั้ง');
+                    });
+            }
+            
+            function generateOrderText() {
                 const subtotal = cart.reduce((sum, item) => sum + item.total, 0);
                 const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
                 const total = subtotal + shipping;
+                const address = deliveryAddressInput.value.trim();
                 
                 let orderText = "📝 รายการสั่งอาหาร 📝\n\n";
                 
@@ -643,18 +723,12 @@
                 orderText += `ค่าจัดส่ง: ${shipping === 0 ? 'ฟรี!' : `฿${formatNumber(shipping)}`}\n`;
                 orderText += `ยอดรวมทั้งหมด: ฿${formatNumber(total)}\n`;
                 
-                navigator.clipboard.writeText(orderText)
-                    .then(() => {
-                        alert('คัดลอกข้อความเรียบร้อยแล้ว สามารถวางในแชทไลน์ได้เลย');
-                    })
-                    .catch(err => {
-                        console.error('ไม่สามารถคัดลอกข้อความได้: ', err);
-                        alert('ไม่สามารถคัดลอกข้อความได้ กรุณาลองอีกครั้ง');
-                    });
-            }
-            
-            function simulateScreenshot() {
-                alert('ฟังก์ชันจำลองการแคปหน้าจอ: ในการใช้งานจริง ระบบจะทำการแคปหน้าจอและส่งไปยังแอปไลน์');
+                if (address) {
+                    orderText += "\n-------------------------\n";
+                    orderText += `ที่อยู่จัดส่ง: ${address}\n`;
+                }
+                
+                return orderText;
             }
             
             function formatNumber(num) {
@@ -662,5 +736,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9655130393999102',t:'MTc1MzU0NTI1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96553b0186ce55a1',t:'MTc1MzU0Njg5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
